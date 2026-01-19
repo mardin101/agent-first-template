@@ -253,7 +253,7 @@ Agents work best with:
 - Keep agent files focused and concise
 - Use specific, actionable guidelines
 - Provide examples in agent definitions
-- Regular refine agent prompts based on usage
+- Regularly refine agent prompts based on usage
 
 ## Further Reading
 

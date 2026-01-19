@@ -67,29 +67,24 @@ temp/
 *.tmp
 
 # OS files
-.DS_Store
 Thumbs.db
 desktop.ini
 
 # Backup files
 *.bak
 *.backup
-*~
 
 # Compiled source
 *.com
-*.class
 *.dll
 *.exe
 *.o
-*.so
 
 # Archives
 *.7z
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip
