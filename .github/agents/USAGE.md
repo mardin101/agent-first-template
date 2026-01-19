@@ -73,7 +73,7 @@ This issue can be immediately:
 Depending on your GitHub Copilot setup, you might invoke the agent like:
 
 ```
-@workspace I want to brainstorm a new feature using the socratic method
+@workspace I want to brainstorm a new feature using the Socratic method
 ```
 
 or
