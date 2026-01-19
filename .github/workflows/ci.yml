@@ -1,0 +1,64 @@
+name: CI - Example Workflow
+
+# This is an example workflow optimized for agent collaboration
+# Customize this based on your project's needs
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+# Explicitly set minimal permissions for security
+permissions:
+  contents: read
+
+jobs:
+  # Example job structure - customize based on your stack
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup environment
+      run: |
+        echo "Add your environment setup commands here"
+        # Example: Setup Node.js
+        # - uses: actions/setup-node@v4
+        #   with:
+        #     node-version: '20'
+        
+    - name: Install dependencies
+      run: |
+        echo "Add your dependency installation commands here"
+        # Example: npm ci
+        
+    - name: Run linter
+      run: |
+        echo "Add your linting commands here"
+        # Example: npm run lint
+        
+    - name: Run tests
+      run: |
+        echo "Add your test commands here"
+        # Example: npm test
+        
+    - name: Build
+      run: |
+        echo "Add your build commands here"
+        # Example: npm run build
+        
+    # Optional: Upload artifacts
+    # - name: Upload build artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: build-output
+    #     path: dist/
+    
+    # Optional: Code coverage
+    # - name: Upload coverage reports
+    #   uses: codecov/codecov-action@v3
+    #   with:
+    #     files: ./coverage/lcov.info
