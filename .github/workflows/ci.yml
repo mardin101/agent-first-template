@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+# Explicitly set minimal permissions for security
+permissions:
+  contents: read
+
 jobs:
   # Example job structure - customize based on your stack
   build-and-test:
