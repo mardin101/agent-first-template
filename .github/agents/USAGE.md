@@ -2,14 +2,18 @@
 
 ## Overview
 
-This template provides four complementary agents for the complete feature development lifecycle:
+This template provides complementary agents for the complete feature development lifecycle
 
-1. **Brainstorming Agent** - Helps you explore and refine feature ideas
-2. **Decomposition Agent** - Breaks down features into actionable sub-issues
-3. **Code Implementation Agent** 🔨 - Creates comprehensive implementation plans with code guidance
-4. **Test Generation Agent** 🧪 - Generates comprehensive test coverage
+1. **Brainstorming Agent** 💡 - Helps you explore and refine feature ideas
+2. **Decomposition Agent** 🗂️ - Breaks down features into actionable sub-issues
+3. **Architecture Agent** 🏗️ - Designs technical architecture for complex features
+4. **API Design Agent** 🔌 - Creates detailed API specifications
+5. **Code Implementation Agent** 🔨 - Creates comprehensive implementation plans with code guidance
+6. **Test Generation Agent** 🧪 - Generates comprehensive test coverage
 
-Together, they enable a complete agent-first development workflow: **Brainstorm → Decompose → Implement → Test → Review**
+Together, they enable a complete agent-first development workflow: **Brainstorm → Decompose → Architecture (if needed) → API Design (if needed) → Implement -> Test → Review**
+
+For complete workflow guidance, see **[WORKFLOW.md](WORKFLOW.md)**.
 
 ---
 
@@ -324,12 +328,382 @@ New team members can:
 - **Learn the codebase**: Sub-issues guide through system components
 - **Make progress quickly**: Clear acceptance criteria reduce ambiguity
 
+---
+
+# Using the Architecture Agent 🏗️
+
+## Quick Start
+
+The Architecture Agent designs comprehensive technical architecture for complex features including system components, data models, technology decisions, and integration patterns.
+
+### Step 1: Decide If You Need Architecture
+
+**✅ Use Architecture Agent When**:
+- Feature complexity is 7+ out of 10
+- New infrastructure components required
+- Database schema changes needed
+- Multi-component integrations
+- Performance or security critical features
+
+**❌ Skip to Implementation When**:
+- Simple UI changes
+- Bug fixes
+- Well-established patterns apply
+- Feature complexity below 4/10
+
+**See [WORKFLOW.md](WORKFLOW.md) for complete decision tree**
+
+### Step 2: Invoke the Agent
+
+Use the GitHub Copilot interface to invoke the architecture agent:
+
+- Open GitHub Copilot chat
+- Reference the agent file: `.github/agents/architecture.md`
+- Provide a sub-issue from decomposition or feature description
+
+### Step 3: Provide Context
+
+The agent will ask about:
+- **Performance requirements**: Response times, throughput, scale
+- **Existing system context**: Current architecture, technologies
+- **Technology constraints**: Required or prohibited technologies
+- **Timeline**: MVP vs. full production scale
+
+### Step 4: Review the Architecture Design
+
+The agent will generate:
+
+1. **Complexity Assessment** - Validates if full architecture is needed
+2. **System Architecture** - Component diagrams (Mermaid format), data flow
+3. **Data Architecture** - Data models, database schema, migrations
+4. **Technology Stack Decisions** - With Architecture Decision Records (ADRs)
+5. **Integration Points** - How this connects with existing systems
+6. **Security & Performance** - Considerations and optimization strategies
+7. **Deployment Strategy** - Infrastructure, rollback plan, migration path
+8. **API Surface Detection** - Recommends API Design Agent if APIs detected
+
+### Step 5: Act on Recommendations
+
+The agent provides conditional next steps:
+
+```markdown
+📋 Next Steps:
+
+1. Review Architecture ✓
+2. [CONDITIONAL] Invoke API Design Agent
+   - Command: @api-design design APIs for issue #105 using this architecture
+   - Reason: 2 REST endpoints detected
+3. [CONDITIONAL] Review database migrations with DBA
+4. Ready for Implementation
+```
+
+## What You'll Get
+
+A production-ready architecture document with:
+
+- ✅ **Component diagrams** (Mermaid) showing system architecture
+- ✅ **Data models** with validation rules and relationships
+- ✅ **Database schemas** with migration and rollback plans
+- ✅ **ADRs** documenting key technical decisions
+- ✅ **Security considerations** addressing OWASP concerns
+- ✅ **Performance targets** with optimization strategies
+- ✅ **Scalability plan** for current and future growth
+- ✅ **Integration patterns** for existing systems
+- ✅ **Deployment strategy** with infrastructure requirements
+- ✅ **API detection** with handoff to API Design Agent
+
+## Integration with Other Agents
+
+**From Decomposition Agent**:
+```
+Decompose Agent → Architecture Agent
+- Receives sub-issue with clear scope
+- Expands on technical details
+```
+
+**To API Design Agent**:
+```
+Architecture Agent → API Design Agent
+- Detects APIs in architecture
+- Provides architectural context
+- Recommends: "@api-design design APIs..."
+```
+
+**To Implementation**:
+```
+Architecture Agent → Implementation
+- Provides complete technical blueprint
+- Attached to sub-issues for reference
+```
+
+## Example Commands
+
+Depending on your GitHub Copilot setup:
+
+```
+Design the architecture for issue #105
+```
+
+or
+
+```
+@architecture analyze sub-issue #2 and create technical design
+```
+
+or
+
+```
+Use .github/agents/architecture.md to design architecture for this feature: [paste description]
+```
+
+## Tips for Effective Architecture
+
+1. **Provide complete context**: More detail = better architecture
+2. **Answer questions thoroughly**: Agent adapts to your responses
+3. **Review ADRs carefully**: These document "why" behind decisions
+4. **Follow recommendations**: If agent says invoke API Design Agent, do it
+5. **Attach to sub-issues**: Link architecture doc to implementation tasks
+6. **Update based on learnings**: Architecture is a living document
+
 ## Need Help?
 
-- See `.github/agents/decompose-example.md` for a complete example decomposition
-- Read the agent configuration in `.github/agents/decompose.md` to understand its behavior  
-- Check the README.md for the complete agent-first workflow
-- Try the brainstorming agent first if you don't have a comprehensive issue yet
+- See `.github/agents/architecture-example.md` for a complete example session
+- Read the agent configuration in `.github/agents/architecture.md`
+- Check [WORKFLOW.md](WORKFLOW.md) for when to use architecture vs. skip to implementation
+- Review template files in `.github/templates/` for ADRs and design docs
+
+---
+
+# Using the API Design Agent 🔌
+
+## Quick Start
+
+The API Design Agent creates comprehensive API specifications including OpenAPI/AsyncAPI specs, authentication patterns, error handling, and security considerations.
+
+### Step 1: Decide If You Need API Design
+
+**✅ Use API Design Agent When**:
+- Creating new REST, GraphQL, WebSocket, or gRPC APIs
+- Modifying existing API contracts
+- Multiple endpoints to design
+- External-facing APIs
+- Architecture Agent recommends it (APIs detected)
+
+**❌ Skip When**:
+- No APIs in the feature
+- Internal function interfaces only
+- Simple CRUD following established patterns (optional)
+
+### Step 2: Check for Architecture Context
+
+**With Architecture Context** (Recommended):
+- Run Architecture Agent first for complex features
+- API Design Agent uses architectural decisions for consistency
+- Ensures alignment on auth, data models, tech stack
+
+**Standalone Mode**:
+- For simple API changes without architecture phase
+- Agent will ask if you want to continue without context
+- Good for: Adding pagination, modifying response format, simple endpoints
+
+### Step 3: Invoke the Agent
+
+Use the GitHub Copilot interface:
+
+```
+@api-design design APIs for issue #105 using this architecture: [architecture link]
+```
+
+or standalone:
+
+```
+Design REST API for user preferences feature
+```
+
+### Step 4: Provide Requirements
+
+The agent will ask about:
+- **API Type**: REST, GraphQL, WebSocket, gRPC, or mixed?
+- **Consumers**: Internal services, external clients, mobile apps, web?
+- **Existing Patterns**: Are there APIs to follow for consistency?
+- **Authentication**: Requirements and method
+- **Expected Volume**: Request rates and scaling needs
+
+### Step 5: Review API Specifications
+
+The agent will generate:
+
+1. **API Overview** - Summary of endpoints and authentication
+2. **Detailed Specifications** - Full specs for each endpoint including:
+   - Request/response formats with examples
+   - Query parameters and headers
+   - Authentication and authorization
+   - Error responses (400, 401, 403, 404, 429, 500)
+   - Rate limiting rules
+3. **OpenAPI/AsyncAPI Spec** - Complete machine-readable specification
+4. **Security Considerations** - OWASP mitigations, auth patterns
+5. **Implementation Guidance** - Code patterns to follow from existing codebase
+
+## What You'll Get
+
+A production-ready API specification with:
+
+- ✅ **Endpoint definitions** for all APIs (REST/GraphQL/WebSocket/gRPC)
+- ✅ **Request/response schemas** with validation rules
+- ✅ **Authentication & authorization** patterns
+- ✅ **Error handling** with consistent error responses
+- ✅ **Rate limiting** strategy and configuration
+- ✅ **Security considerations** (OWASP Top 10 mitigations)
+- ✅ **OpenAPI 3.0** or **AsyncAPI 2.0** specification
+- ✅ **Code examples** for client integration (JavaScript, Swift, Kotlin)
+- ✅ **Implementation notes** referencing existing patterns
+
+## API Types Supported
+
+### REST APIs
+- Full CRUD operations
+- Pagination strategies (offset, cursor, page-based)
+- Filtering and sorting
+- Bulk operations
+- OpenAPI 3.0 specification
+
+### GraphQL APIs
+- Query and Mutation definitions
+- Schema with types and inputs
+- Pagination (connections, edges, cursors)
+- Error handling patterns
+
+### WebSocket APIs
+- Connection lifecycle
+- Message format standards
+- Bidirectional communication
+- Authentication flow
+- AsyncAPI 2.0 specification
+
+### gRPC APIs
+- Service definitions
+- Message types (proto3)
+- Streaming patterns
+- Error codes
+
+## Integration with Other Agents
+
+**From Architecture Agent** (Recommended):
+```
+Architecture Agent → API Design Agent
+- Receives architecture context
+- Aligns with architectural decisions
+- Uses data models from architecture
+```
+
+**Standalone** (Simple APIs):
+```
+Sub-Issue → API Design Agent → Implementation
+- No architecture needed for simple APIs
+- Agent uses existing patterns
+```
+
+**To Implementation**:
+```
+API Design Agent → Implementation
+- Provides OpenAPI/AsyncAPI spec
+- Implementation uses spec for contract testing
+- Developers follow examples
+```
+
+## Example Commands
+
+Depending on your setup:
+
+```
+@api-design design APIs for issue #105 using this architecture: [link]
+```
+
+or
+
+```
+Design WebSocket protocol for real-time notifications
+```
+
+or
+
+```
+Create OpenAPI spec for user management CRUD endpoints
+```
+
+## Tips for Effective API Design
+
+1. **Architecture first for complex APIs**: Run Architecture Agent before API Design for features with multiple APIs
+2. **Standalone for simple changes**: Skip to API Design for simple additions
+3. **Provide existing patterns**: Point agent to existing APIs to follow
+4. **Review security thoroughly**: Ensure auth, rate limiting, and error handling are appropriate
+5. **Validate OpenAPI spec**: Use Swagger UI to test the generated spec
+6. **Share with consumers**: Give API spec to frontend/mobile teams early
+
+## When to Use Standalone vs. With Architecture
+
+| Scenario | Recommendation | Reason |
+|----------|----------------|--------|
+| Multiple endpoints + new infrastructure | Architecture → API Design | Need system design first |
+| Simple CRUD endpoint | API Design standalone | Established patterns work |
+| WebSocket/Real-time | Architecture → API Design | Complex protocol needs architecture |
+| Modifying existing API | API Design standalone | Architecture already exists |
+| External-facing API | Architecture → API Design | Security and scale critical |
+
+## Need Help?
+
+- See `.github/agents/api-design-example.md` for a complete WebSocket example
+- Read the agent configuration in `.github/agents/api-design.md`
+- Check [WORKFLOW.md](WORKFLOW.md) for decision tree on when to use API Design
+- Review `.github/templates/openapi-template.yaml` for starter template
+- See "Integration with Architecture Agent" section above for collaboration patterns
+
+---
+
+# Complete Workflow Summary
+
+The full agent-driven development process:
+
+```
+1. 💡 Brainstorm → Creates comprehensive issue
+2. 🗂️ Decompose → Breaks into actionable sub-issues
+3. 🏗️ Architecture (if complex) → Designs technical architecture
+4. 🔌 API Design (if APIs) → Specifies API contracts
+5. ⚡ Implementation → Build with clear specs
+6. ✅ Review → Validate against design
+7. 🚀 Deploy → Ship with confidence
+```
+
+**For complete guidance**, see **[WORKFLOW.md](WORKFLOW.md)**.
+
+---
+
+## Need Help?
+
+### Brainstorm Agent
+- See `.github/agents/brainstorm-example.md` for an example session
+- Read `.github/agents/brainstorm.md` for agent behavior
+
+### Decompose Agent
+- See `.github/agents/decompose-example.md` for an example decomposition
+- Read `.github/agents/decompose.md` for agent behavior
+
+### Architecture Agent
+- See `.github/agents/architecture-example.md` for an example design
+- Read `.github/agents/architecture.md` for agent behavior
+- Review `.github/templates/adr-template.md` for ADR format
+- Review `.github/templates/design-doc-template.md` for design doc format
+
+### API Design Agent
+- See `.github/agents/api-design-example.md` for a WebSocket example
+- Read `.github/agents/api-design.md` for agent behavior
+- Review `.github/templates/openapi-template.yaml` for OpenAPI template
+
+### Complete Workflow
+- See **[WORKFLOW.md](WORKFLOW.md)** for end-to-end guidance
+- Decision trees for when to use each agent
+- Complete workflow examples
+- Best practices and troubleshooting
 
 Happy decomposing! 🚀
 
@@ -932,3 +1306,4 @@ This complete workflow ensures:
 - Review agent configuration files to understand capabilities
 - See README.md for overview and quick reference
 - Experiment with agents on sample issues to learn their behavior
+Happy building! 🚀
