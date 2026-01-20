@@ -122,24 +122,109 @@ Agent: [Generates 9 sub-issues organized into 5 phases]
 
 **Example**: See `.github/agents/decompose-example.md` for a complete decomposition session
 
+### Code Implementation Agent 🔨
+
+Use the code implementation agent to create comprehensive implementation plans for well-defined sub-issues with production-ready code guidance.
+
+**Location**: `.github/agents/code-implementation.md`
+
+**How to use**:
+1. Invoke the code implementation agent with a sub-issue (typically from the decompose agent)
+2. The agent analyzes the codebase for patterns and conventions
+3. It checks for architecture/API documentation
+4. The agent generates a detailed implementation plan with code examples
+
+**What you'll get**:
+- A comprehensive implementation plan with:
+  - Context from architecture docs and existing codebase patterns
+  - Acceptance criteria mapped to implementation tasks
+  - Step-by-step implementation guidance with code examples
+  - Files to create/modify with full paths
+  - Code patterns to follow (error handling, logging, auth)
+  - Edge cases and security considerations
+  - Performance and accessibility guidance
+  - Pre/post implementation checklists
+
+**Example workflow**:
+```
+You: [Provide sub-issue with acceptance criteria]
+
+Agent: [Analyzes codebase patterns and confirms understanding]
+
+Agent: [Generates implementation plan with:]
+- Database schema changes
+- Service class implementation with code examples
+- API integration guidance
+- Error handling patterns
+- Security considerations
+- Testing suggestions
+
+[Ready to implement or pass to autonomous coding agent]
+```
+
+**Example**: See `.github/agents/code-implementation-example.md` for a complete implementation planning session
+
+### Test Generation Agent 🧪
+
+Use the test generation agent to create comprehensive test coverage for implemented features, mapping acceptance criteria to test cases.
+
+**Location**: `.github/agents/test-generation.md`
+
+**How to use**:
+1. Invoke the test generation agent after implementing a feature
+2. The agent analyzes the implementation code
+3. It detects the test framework and existing patterns
+4. The agent generates comprehensive unit, integration, and E2E tests
+
+**What you'll get**:
+- Comprehensive test coverage with:
+  - Acceptance criteria mapped to test cases
+  - Unit tests for individual functions/methods
+  - Integration tests for API endpoints
+  - E2E tests for user workflows (when applicable)
+  - Test fixtures and mock data
+  - Edge case and error scenario coverage
+  - Security and performance test guidance
+  - Expected coverage report (>80%)
+
+**Example workflow**:
+```
+You: [Provide implementation reference]
+
+Agent: [Analyzes code and test framework]
+
+Agent: [Generates test suite with:]
+- Unit tests with proper mocking
+- Integration tests with database setup
+- E2E tests for critical paths
+- Test coverage analysis
+- Running instructions
+
+[Ready to run tests and verify coverage]
+```
+
+**Example**: See `.github/agents/test-generation-example.md` for a complete test generation session
+
 ## Agent-First Development Workflow
 
 This template supports a complete agent-driven development workflow:
 
 ```
-1. Brainstorm → 2. Decompose → 3. Implement → 4. Review
-   (brainstorm.md)  (decompose.md)  (coding agents)  (human/agent)
+1. Brainstorm → 2. Decompose → 3. Implement → 4. Test → 5. Review
+   (brainstorm)    (decompose)    (code-impl)    (test-gen)  (human/agent)
 ```
 
 **Step 1: Brainstorm** - Use the brainstorming agent to explore and refine feature ideas into comprehensive GitHub issues
 
-**Step 2: Decompose** - Use the decomposition agent to break down the issue into actionable sub-issues
+**Step 2: Decompose** - Use the decomposition agent to break down the issue into actionable sub-issues with acceptance criteria
 
-**Step 3: Implement** - Assign sub-issues to coding agents or developers for implementation
+**Step 3: Implement** - Use the code implementation agent to create detailed implementation plans, then implement following the guidance (manually or with autonomous coding agents)
 
-**Step 4: Review** - Human review and merge, or use review agents
+**Step 4: Test** - Use the test generation agent to create comprehensive test coverage that validates all acceptance criteria
 
-This workflow ensures features are well-thought-out, properly scoped, and ready for efficient implementation.
+**Step 5: Review** - Human review and merge, or use review agents
+
+This workflow ensures features are well-thought-out, properly scoped, systematically implemented, thoroughly tested, and ready for production.
 
 ## Adding More Agents
 
