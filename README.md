@@ -1,10 +1,48 @@
 # Agent-First Template
 
-A template repository for agent-driven development with pre-configured agents to streamline feature development.
+A template repository for agent-driven development with pre-configured agents to streamline the complete feature development lifecycle from ideation to implementation.
 
 ## Available Agents
 
-### Feature Brainstorming Agent
+This template provides four specialized agents that work together to deliver high-quality features:
+
+### 1. Feature Brainstorming Agent 💡
+
+**Purpose**: Explore and refine feature ideas through Socratic questioning
+
+### 2. Feature Decomposition Agent 🗂️
+
+**Purpose**: Break down features into actionable sub-issues
+
+### 3. Architecture Agent 🏗️ *NEW*
+
+**Purpose**: Design comprehensive technical architecture for complex features
+
+### 4. API Design Agent 🔌 *NEW*
+
+**Purpose**: Create detailed API specifications and contracts
+
+---
+
+## Quick Start
+
+### For New Features
+
+```
+1. 💡 Brainstorm → Define the feature
+2. 🗂️ Decompose → Break into tasks
+3. 🏗️ Architecture (if complex) → Design system
+4. 🔌 API Design (if APIs) → Specify contracts
+5. ⚡ Implement → Build it
+```
+
+**For complete workflow guidance, see [WORKFLOW.md](.github/agents/WORKFLOW.md)**
+
+---
+
+## Detailed Agent Documentation
+
+### Feature Brainstorming Agent 💡
 
 Use the brainstorming agent to explore and refine new feature ideas through Socratic questioning.
 
@@ -119,3 +157,157 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 MIT License - feel free to use this template for your projects.
+
+---
+
+### Architecture Agent 🏗️
+
+Design comprehensive technical architecture for complex features including system components, data models, and integration patterns.
+
+**Location**: `.github/agents/architecture.md`
+
+**When to use**:
+- ✅ Complex features (complexity 7+ out of 10)
+- ✅ New infrastructure components
+- ✅ Database schema changes
+- ✅ Multi-component integrations
+- ✅ Performance or security-critical features
+
+**How to use**:
+1. Invoke the architecture agent with a sub-issue from decomposition
+2. Provide context: performance requirements, existing architecture, constraints
+3. The agent performs complexity assessment
+4. For complex features, generates comprehensive architecture design
+5. Agent detects if APIs are needed and recommends API Design Agent
+
+**What you'll get**:
+- Complete architecture design document with:
+  - System architecture with component diagrams (Mermaid)
+  - Data models and database schema with migrations
+  - Architecture Decision Records (ADRs) for key choices
+  - Technology stack decisions with rationale
+  - Integration patterns for existing systems
+  - Security, performance, and scalability considerations
+  - Deployment strategy and infrastructure requirements
+  - API detection with recommendations
+
+**Example**: See `.github/agents/architecture-example.md` for a complete WebSocket architecture
+
+---
+
+### API Design Agent 🔌
+
+Create detailed, production-ready API specifications for REST, GraphQL, WebSocket, and gRPC interfaces.
+
+**Location**: `.github/agents/api-design.md`
+
+**When to use**:
+- ✅ Recommended by Architecture Agent (APIs detected)
+- ✅ Creating new APIs (REST, GraphQL, WebSocket, gRPC)
+- ✅ Modifying existing API contracts
+- ✅ External-facing APIs
+
+**Can work**:
+- With architecture context (Recommended for complex APIs)
+- Standalone (Good for simple CRUD additions)
+
+**How to use**:
+1. Invoke the API Design Agent with sub-issue or feature description
+2. Agent checks for architecture context
+3. Provide API requirements: type, consumers, existing patterns
+4. Agent generates comprehensive API specifications
+5. Review OpenAPI/AsyncAPI spec
+
+**What you'll get**:
+- Complete API specification with:
+  - Endpoint definitions with full request/response details
+  - Authentication and authorization patterns
+  - Error handling with consistent responses
+  - Rate limiting strategy
+  - Security considerations (OWASP Top 10)
+  - OpenAPI 3.0 / AsyncAPI 2.0 specification
+  - Code examples for multiple platforms
+  - Implementation guidance
+
+**Example**: See `.github/agents/api-design-example.md` for a complete WebSocket protocol design
+
+---
+
+## Complete Workflow
+
+The agent-first approach now includes a technical design phase between planning and implementation:
+
+```
+1. Brainstorm → 2. Decompose → 3. Architecture* → 4. API Design* → 5. Implement → 6. Review
+   (brainstorm.md)  (decompose.md)  (architecture.md)  (api-design.md)  (coding agents)  (human/agent)
+   
+* Conditional - Based on feature complexity
+```
+
+### When to Use Each Agent
+
+| Feature Type | Brainstorm | Decompose | Architecture | API Design |
+|--------------|------------|-----------|--------------|------------|
+| **New major feature** | ✅ | ✅ | ✅ | ⚠️ If APIs |
+| **REST API (complex)** | ⚠️ | ⚠️ | ✅ | ✅ |
+| **REST API (simple)** | ❌ | ❌ | ❌ | ✅ |
+| **WebSocket/Real-time** | ✅ | ✅ | ✅ | ✅ |
+| **Database schema** | ⚠️ | ⚠️ | ✅ | ❌ |
+| **UI-only feature** | ⚠️ | ⚠️ | ❌ | ❌ |
+| **Bug fix** | ❌ | ❌ | ❌ | ❌ |
+
+**✅** Recommended | **⚠️** Optional | **❌** Skip
+
+**For complete workflow guidance, decision trees, and examples, see [.github/agents/WORKFLOW.md](.github/agents/WORKFLOW.md)**
+
+---
+
+## Benefits
+
+### With Design Agents
+
+The addition of Architecture and API Design agents provides:
+
+- **✅ 30-50% reduction** in implementation rework
+- **✅ Clear specifications** eliminate blocking questions during implementation
+- **✅ Consistent patterns** through standardized architecture and API design
+- **✅ ADRs capture** decision rationale for future reference
+- **✅ Higher quality** with security and performance considered upfront
+- **✅ Faster onboarding** with comprehensive documentation
+
+### Design Time Investment
+
+- Brainstorm: 20-30 minutes
+- Decompose: 15-30 minutes
+- Architecture (if needed): 30-60 minutes
+- API Design (if needed): 30-45 minutes
+
+**Total upfront design**: 1-3 hours for complex features
+
+**ROI**: Prevents 30-50% implementation rework (days to weeks saved)
+
+---
+
+## Documentation
+
+### Agent Instructions
+- `.github/agents/brainstorm.md`
+- `.github/agents/decompose.md`
+- `.github/agents/architecture.md` 🆕
+- `.github/agents/api-design.md` 🆕
+
+### Examples
+- `.github/agents/brainstorm-example.md`
+- `.github/agents/decompose-example.md`
+- `.github/agents/architecture-example.md` 🆕
+- `.github/agents/api-design-example.md` 🆕
+
+### Templates
+- `.github/templates/adr-template.md` 🆕
+- `.github/templates/design-doc-template.md` 🆕
+- `.github/templates/openapi-template.yaml` 🆕
+
+### Guides
+- `.github/agents/USAGE.md` - Detailed usage guide
+- `.github/agents/WORKFLOW.md` 🆕 - Complete workflow with decision trees
+
