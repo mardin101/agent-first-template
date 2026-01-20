@@ -82,7 +82,8 @@ Scan for common security vulnerabilities:
 
 **Current Code**:
 ```javascript
-// Vulnerable code
+// WARNING: This is intentionally vulnerable code for demonstration purposes only
+// DO NOT use this pattern in production code
 const query = `SELECT * FROM users WHERE id = ${userId}`;
 db.execute(query);
 ```
