@@ -1,10 +1,10 @@
 # Agent-First Template
 
-A template repository for agent-driven development with pre-configured agents to streamline the complete feature development lifecycle from ideation to implementation.
+A template repository for agent-driven development with pre-configured agents to streamline the complete feature development lifecycle from ideation through implementation, testing, documentation, and review.
 
 ## Available Agents
 
-This template provides four specialized agents that work together to deliver high-quality features:
+This template provides six specialized agents that work together to deliver high-quality features:
 
 ### 1. Feature Brainstorming Agent 💡
 
@@ -18,9 +18,17 @@ This template provides four specialized agents that work together to deliver hig
 
 **Purpose**: Design comprehensive technical architecture for complex features
 
-### 4. API Design Agent 🔌 *NEW*
+### 4. API Design Agent 🔌
 
 **Purpose**: Create detailed API specifications and contracts
+
+### 5. Documentation Agent 📚 *NEW*
+
+**Purpose**: Generate and maintain comprehensive technical documentation
+
+### 6. Code Review Agent 🔍 *NEW*
+
+**Purpose**: Automated first-pass code review with actionable feedback
 
 ---
 
@@ -34,6 +42,9 @@ This template provides four specialized agents that work together to deliver hig
 3. 🏗️ Architecture (if complex) → Design system
 4. 🔌 API Design (if APIs) → Specify contracts
 5. ⚡ Implement → Build it
+6. 📚 Documentation → Generate docs
+7. 🔍 Code Review → Automated review
+8. ✅ Merge → Ship with confidence
 ```
 
 **For complete workflow guidance, see [WORKFLOW.md](.github/agents/WORKFLOW.md)**
@@ -318,28 +329,97 @@ Create detailed, production-ready API specifications for REST, GraphQL, WebSocke
 
 ---
 
+### Documentation Agent 📚
+
+Generate and maintain comprehensive technical documentation throughout the development lifecycle.
+
+**Location**: `.github/agents/documentation.md`
+
+**When to use**:
+- ✅ After implementing new features
+- ✅ Creating or updating APIs
+- ✅ Adding new components or libraries
+- ✅ When documentation gaps are identified
+
+**How to use**:
+1. Invoke the documentation agent with code or PR to document
+2. Specify documentation types needed (API, code comments, user guide, changelog)
+3. The agent analyzes code and existing documentation
+4. Agent generates comprehensive documentation with examples
+5. Review and integrate into repository
+
+**What you'll get**:
+- Complete documentation suite with:
+  - API reference with request/response examples
+  - Code documentation (JSDoc/docstrings)
+  - User guides and tutorials
+  - Changelog entries
+  - README updates
+  - Multiple language examples (JavaScript, Python, etc.)
+  - Gap identification and maintenance recommendations
+
+**Example**: See `.github/agents/documentation-example.md` for complete documentation generation
+
+---
+
+### Code Review Agent 🔍
+
+Automated first-pass code review with comprehensive, actionable feedback across multiple quality dimensions.
+
+**Location**: `.github/agents/code-review.md`
+
+**When to use**:
+- ✅ Before requesting human code review
+- ✅ After implementation and testing
+- ✅ For automated quality gates in CI/CD
+- ✅ When you want comprehensive feedback
+
+**How to use**:
+1. Invoke the code review agent with PR URL or code changes
+2. Provide acceptance criteria and design docs (if available)
+3. Agent performs comprehensive review across all categories
+4. Agent provides prioritized, actionable feedback
+5. Address critical and high-priority issues
+6. Re-review if significant changes made
+
+**What you'll get**:
+- Comprehensive code review with:
+  - Security vulnerability scanning (SQL injection, XSS, auth issues)
+  - Code quality analysis (duplication, complexity, best practices)
+  - Performance optimization suggestions (N+1 queries, caching)
+  - Test coverage validation (>80% threshold)
+  - Documentation completeness check
+  - Accessibility validation (WCAG for UI)
+  - Severity-based prioritization (critical/high/medium/low)
+  - Specific line numbers and code examples
+  - Estimated fix time for each issue
+
+**Example**: See `.github/agents/code-review-example.md` for complete review session
+
+---
+
 ## Complete Workflow
 
-The agent-first approach now includes a technical design phase between planning and implementation:
+The agent-first approach now includes technical design and quality assurance phases for a complete development lifecycle:
 
 ```
-1. Brainstorm → 2. Decompose → 3. Architecture* → 4. API Design* → 5. Implement → 6. Review
-   (brainstorm.md)  (decompose.md)  (architecture.md)  (api-design.md)  (coding agents)  (human/agent)
+1. Brainstorm → 2. Decompose → 3. Architecture* → 4. API Design* → 5. Implement → 6. Test → 7. Documentation → 8. Code Review → 9. Merge
+   (brainstorm.md)  (decompose.md)  (architecture.md)  (api-design.md)  (coding agents) (test agents) (documentation.md) (code-review.md) (human review)
    
 * Conditional - Based on feature complexity
 ```
 
 ### When to Use Each Agent
 
-| Feature Type | Brainstorm | Decompose | Architecture | API Design |
-|--------------|------------|-----------|--------------|------------|
-| **New major feature** | ✅ | ✅ | ✅ | ⚠️ If APIs |
-| **REST API (complex)** | ⚠️ | ⚠️ | ✅ | ✅ |
-| **REST API (simple)** | ❌ | ❌ | ❌ | ✅ |
-| **WebSocket/Real-time** | ✅ | ✅ | ✅ | ✅ |
-| **Database schema** | ⚠️ | ⚠️ | ✅ | ❌ |
-| **UI-only feature** | ⚠️ | ⚠️ | ❌ | ❌ |
-| **Bug fix** | ❌ | ❌ | ❌ | ❌ |
+| Feature Type | Brainstorm | Decompose | Architecture | API Design | Documentation | Code Review |
+|--------------|------------|-----------|--------------|------------|---------------|-------------|
+| **New major feature** | ✅ | ✅ | ✅ | ⚠️ If APIs | ✅ | ✅ |
+| **REST API (complex)** | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ |
+| **REST API (simple)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| **WebSocket/Real-time** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Database schema** | ⚠️ | ⚠️ | ✅ | ❌ | ✅ | ✅ |
+| **UI-only feature** | ⚠️ | ⚠️ | ❌ | ❌ | ⚠️ | ✅ |
+| **Bug fix** | ❌ | ❌ | ❌ | ❌ | ⚠️ | ✅ |
 
 **✅** Recommended | **⚠️** Optional | **❌** Skip
 
@@ -349,27 +429,33 @@ The agent-first approach now includes a technical design phase between planning 
 
 ## Benefits
 
-### With Design Agents
+### With Complete Development Lifecycle
 
-The addition of Architecture and API Design agents provides:
+The addition of Architecture, API Design, Documentation, and Code Review agents provides:
 
 - **✅ 30-50% reduction** in implementation rework
+- **✅ 80%+ of common issues** caught before human review
+- **✅ 30-50% faster code review** with automated first-pass
+- **✅ Consistent documentation** quality and completeness
 - **✅ Clear specifications** eliminate blocking questions during implementation
 - **✅ Consistent patterns** through standardized architecture and API design
 - **✅ ADRs capture** decision rationale for future reference
 - **✅ Higher quality** with security and performance considered upfront
 - **✅ Faster onboarding** with comprehensive documentation
+- **✅ Complete audit trail** from ideation to deployment
 
-### Design Time Investment
+### Development Time Investment
 
 - Brainstorm: 20-30 minutes
 - Decompose: 15-30 minutes
 - Architecture (if needed): 30-60 minutes
 - API Design (if needed): 30-45 minutes
+- Documentation: 10-15 minutes
+- Code Review: 5-10 minutes (automated)
 
-**Total upfront design**: 1-3 hours for complex features
+**Total upfront design + QA**: 1-3 hours for complex features
 
-**ROI**: Prevents 30-50% implementation rework (days to weeks saved)
+**ROI**: Prevents 30-50% implementation rework + catches 80%+ of issues early (days to weeks saved)
 
 ---
 
@@ -378,21 +464,25 @@ The addition of Architecture and API Design agents provides:
 ### Agent Instructions
 - `.github/agents/brainstorm.md`
 - `.github/agents/decompose.md`
-- `.github/agents/architecture.md` 🆕
-- `.github/agents/api-design.md` 🆕
+- `.github/agents/architecture.md`
+- `.github/agents/api-design.md`
+- `.github/agents/documentation.md` 🆕
+- `.github/agents/code-review.md` 🆕
 
 ### Examples
 - `.github/agents/brainstorm-example.md`
 - `.github/agents/decompose-example.md`
-- `.github/agents/architecture-example.md` 🆕
-- `.github/agents/api-design-example.md` 🆕
+- `.github/agents/architecture-example.md`
+- `.github/agents/api-design-example.md`
+- `.github/agents/documentation-example.md` 🆕
+- `.github/agents/code-review-example.md` 🆕
 
 ### Templates
-- `.github/templates/adr-template.md` 🆕
-- `.github/templates/design-doc-template.md` 🆕
-- `.github/templates/openapi-template.yaml` 🆕
+- `.github/templates/adr-template.md`
+- `.github/templates/design-doc-template.md`
+- `.github/templates/openapi-template.yaml`
 
 ### Guides
 - `.github/agents/USAGE.md` - Detailed usage guide
-- `.github/agents/WORKFLOW.md` 🆕 - Complete workflow with decision trees
+- `.github/agents/WORKFLOW.md` - Complete workflow with decision trees
 

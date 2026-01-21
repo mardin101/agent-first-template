@@ -10,8 +10,10 @@ This template provides complementary agents for the complete feature development
 4. **API Design Agent** 🔌 - Creates detailed API specifications
 5. **Code Implementation Agent** 🔨 - Creates comprehensive implementation plans with code guidance
 6. **Test Generation Agent** 🧪 - Generates comprehensive test coverage
+7. **Documentation Agent** 📚 - Generates and maintains comprehensive documentation
+8. **Code Review Agent** 🔍 - Automated first-pass code review with actionable feedback
 
-Together, they enable a complete agent-first development workflow: **Brainstorm → Decompose → Architecture (if needed) → API Design (if needed) → Implement -> Test → Review**
+Together, they enable a complete agent-first development workflow: **Brainstorm → Decompose → Architecture (if needed) → API Design (if needed) → Implement -> Test → Review/Documentation**
 
 For complete workflow guidance, see **[WORKFLOW.md](WORKFLOW.md)**.
 
@@ -660,6 +662,341 @@ Create OpenAPI spec for user management CRUD endpoints
 
 ---
 
+# Using the Documentation Agent 📚
+
+## Quick Start
+
+The Documentation Agent generates and maintains comprehensive technical documentation for your code, including API references, code comments, user guides, and changelogs.
+
+### Step 1: Decide What Documentation You Need
+
+**✅ Use Documentation Agent When**:
+- Feature is implemented and ready to document
+- Creating or updating APIs
+- Adding new components or libraries
+- Documentation gaps identified in code review
+- Updating user-facing features
+
+**Documentation Types**:
+- API reference documentation (REST, GraphQL, WebSocket)
+- Code documentation (JSDoc, docstrings)
+- User guides and tutorials
+- Changelog entries
+- README updates
+
+### Step 2: Invoke the Agent
+
+Use the GitHub Copilot interface to invoke the documentation agent:
+
+- Open GitHub Copilot chat
+- Reference the agent file: `.github/agents/documentation.md`
+- Provide code, PR URL, or files to document
+
+### Step 3: Provide Context
+
+The agent will ask about:
+- **Audience**: Who will use this documentation? (developers, end-users, API consumers)
+- **Existing Patterns**: Documentation standards or examples to follow
+- **Format Preferences**: Markdown, JSDoc, OpenAPI, other formats
+- **Depth**: Quick reference or comprehensive guides with examples
+
+### Step 4: Review Generated Documentation
+
+The agent will generate:
+
+1. **API Documentation** - Complete reference with examples
+2. **Code Documentation** - JSDoc/docstrings for functions and classes
+3. **User Guides** - Step-by-step tutorials and use cases
+4. **Changelog Entries** - Following Keep a Changelog format
+5. **README Updates** - Installation, configuration, examples
+
+### Step 5: Integrate and Iterate
+
+Review the documentation and:
+- Verify code examples are accurate
+- Check that all endpoints/functions are covered
+- Ensure examples work as written
+- Request updates for any gaps or errors
+
+## What You'll Get
+
+A complete documentation suite with:
+
+- ✅ **API Reference** - All endpoints with request/response examples
+- ✅ **Code Documentation** - JSDoc/docstrings for public APIs
+- ✅ **User Guides** - Comprehensive tutorials and use cases
+- ✅ **Changelog Entries** - Properly formatted version history
+- ✅ **README Updates** - Quick start and configuration
+- ✅ **Multiple Languages** - Examples in JavaScript, Python, etc.
+- ✅ **Gap Analysis** - Identification of missing documentation
+
+## Integration with Other Agents
+
+**From Implementation/API Design Agent**:
+```
+Implementation Complete → Documentation Agent
+- Receives code and specifications
+- Reviews tests for examples
+- Generates comprehensive docs
+```
+
+**To Code Review Agent**:
+```
+Documentation Agent → Code Review Agent
+- Documentation is complete
+- Code Review validates documentation
+```
+
+## Example Commands
+
+Depending on your GitHub Copilot setup, you might invoke the agent like:
+
+```
+Generate documentation for this PR: [URL]
+```
+
+or
+
+```
+@documentation document the new user preferences API
+```
+
+or
+
+```
+Use .github/agents/documentation.md to create API documentation
+```
+
+## Tips for Effective Documentation
+
+1. **Provide Complete Code**: Agent needs full implementation to generate accurate docs
+2. **Include Design Docs**: Architecture and API specs help generate better documentation
+3. **Specify Audience**: Clear target audience improves documentation quality
+4. **Review Examples**: Verify all code examples actually work
+5. **Update Regularly**: Re-run agent when APIs or features change
+6. **Follow Patterns**: Point agent to existing docs to match style
+
+## Documentation Maintenance Mode
+
+When updating existing documentation:
+
+**Gap Identification**:
+- Agent scans existing documentation
+- Identifies missing or outdated sections
+- Prioritizes documentation needs
+- Estimates time to address gaps
+
+**Update Strategy**:
+- Reviews implementation changes
+- Updates affected documentation
+- Adds missing examples
+- Fixes inconsistencies
+
+## Need Help?
+
+- See `.github/agents/documentation-example.md` for a complete example session
+- Read the agent configuration in `.github/agents/documentation.md`
+- Check [WORKFLOW.md](WORKFLOW.md) for when to use documentation in the lifecycle
+
+---
+
+# Using the Code Review Agent 🔍
+
+## Quick Start
+
+The Code Review Agent performs comprehensive automated first-pass code review, catching common issues before human review and providing actionable feedback.
+
+### Step 1: Decide When to Run Review
+
+**✅ Use Code Review Agent When**:
+- Before requesting human code review
+- After implementation and testing complete
+- As automated quality gate in CI/CD
+- When you want comprehensive feedback
+- Before merging to main branch
+
+**✅ Review Categories**:
+- Security vulnerabilities
+- Code quality and maintainability
+- Performance optimization
+- Test coverage validation
+- Documentation completeness
+- Accessibility (for UI changes)
+
+### Step 2: Invoke the Agent
+
+Use the GitHub Copilot interface to invoke the code review agent:
+
+- Open GitHub Copilot chat
+- Reference the agent file: `.github/agents/code-review.md`
+- Provide PR URL or code changes to review
+
+### Step 3: Provide Context
+
+The agent will ask about:
+- **PR URL or Code Changes**: What to review
+- **Acceptance Criteria**: From original issue (if available)
+- **Design Documents**: Architecture and API specs (if available)
+- **Focus Areas**: Specific concerns (optional)
+
+### Step 4: Review Feedback
+
+The agent will provide:
+
+1. **Executive Summary** - Overall assessment and key findings
+2. **Critical Issues** 🔴 - Must fix before merge (security, data corruption)
+3. **High Priority** 🟠 - Should fix before merge (performance, quality)
+4. **Medium Priority** 🟡 - Consider fixing (duplication, minor issues)
+5. **Low Priority** 🟢 - Nice to have (suggestions, optimizations)
+6. **Positive Observations** ✨ - Good practices identified
+
+Each issue includes:
+- Specific file and line numbers
+- Current code and recommended fix
+- Clear explanation of the problem
+- Estimated fix time
+- Severity and impact assessment
+
+### Step 5: Address Feedback
+
+Review the findings and:
+- **Fix all critical issues** (security, breaking bugs)
+- **Fix most high priority issues** (performance, quality)
+- **Consider medium priority** (based on time/priorities)
+- **Optional low priority** (nice-to-have improvements)
+
+### Step 6: Re-Review if Needed
+
+After significant changes:
+- Run code review again
+- Verify fixes address original issues
+- Ensure no new issues introduced
+
+## What You'll Get
+
+A comprehensive code review with:
+
+- ✅ **Security Scan** - SQL injection, XSS, auth issues, OWASP Top 10
+- ✅ **Code Quality** - Duplication, complexity, best practices, SOLID principles
+- ✅ **Performance** - N+1 queries, inefficient algorithms, caching opportunities
+- ✅ **Test Coverage** - Coverage %, missing test cases, edge cases
+- ✅ **Documentation** - JSDoc/docstrings, API docs, changelog, examples
+- ✅ **Accessibility** - WCAG compliance, keyboard nav, screen readers (for UI)
+- ✅ **Prioritization** - Severity-based with critical issues highlighted
+- ✅ **Actionable Fixes** - Specific code examples for every issue
+- ✅ **Fix Time Estimates** - Help prioritize based on effort
+
+## Integration with Other Agents
+
+**After Documentation Agent**:
+```
+Documentation Agent → Code Review Agent
+- Reviews documentation completeness
+- Validates documentation accuracy
+- Checks changelog updates
+```
+
+**After Implementation/Test Agents**:
+```
+Implementation + Tests → Code Review Agent
+- Reviews implementation quality
+- Validates test coverage
+- Checks acceptance criteria
+```
+
+**Before Human Review**:
+```
+Code Review Agent → Human Reviewer
+- Catches 80%+ of common issues
+- Reduces human review time by 30-50%
+- Human focuses on architecture and logic
+```
+
+## Example Commands
+
+Depending on your GitHub Copilot setup, you might invoke the agent like:
+
+```
+Review this PR: [URL]
+```
+
+or
+
+```
+@code-review perform automated review of PR #123
+```
+
+or
+
+```
+Use .github/agents/code-review.md to review my changes
+```
+
+## Severity Level Guidelines
+
+### 🔴 Critical (Must Fix Before Merge)
+- Security vulnerabilities (SQL injection, XSS, auth bypass)
+- Data corruption risks
+- Breaking changes without migration
+- Critical bugs in core functionality
+
+### 🟠 High Priority (Should Fix Before Merge)
+- Performance issues affecting UX
+- Poor error handling in critical paths
+- Significant code quality issues
+- Missing tests for critical functionality
+
+### 🟡 Medium Priority (Consider Fixing)
+- Code duplication
+- Minor performance improvements
+- Documentation gaps for public APIs
+- Test coverage below 80%
+
+### 🟢 Low Priority (Nice to Have)
+- Code style inconsistencies
+- Optimization with minimal impact
+- Additional documentation
+- Refactoring for readability
+
+## Tips for Effective Code Review
+
+1. **Provide Complete Context**: Include acceptance criteria and design docs
+2. **Fix Critical First**: Focus on security and breaking bugs
+3. **Re-Review After Major Changes**: Run again after significant fixes
+4. **Don't Skip Low Severity**: Some may be quick wins
+5. **Use in CI/CD**: Automate as quality gate
+6. **Complement Human Review**: Use before, not instead of human review
+7. **Track Metrics**: Monitor issues found over time
+
+## Best Practices
+
+**Before Running Review**:
+- Ensure implementation is complete
+- Run tests and verify they pass
+- Generate documentation
+- Self-review your code first
+
+**When Reviewing Feedback**:
+- Read all issues, even low severity
+- Understand why something is an issue
+- Learn from code examples provided
+- Track patterns in your code
+
+**After Addressing Issues**:
+- Re-run review for complex changes
+- Verify all critical issues resolved
+- Document why you skipped any issues
+- Update tests after fixes
+
+## Need Help?
+
+- See `.github/agents/code-review-example.md` for a complete example session
+- Read the agent configuration in `.github/agents/code-review.md`
+- Check [WORKFLOW.md](WORKFLOW.md) for when to use code review in the lifecycle
+- Review severity guidelines to prioritize fixes
+
+---
+
 # Complete Workflow Summary
 
 The full agent-driven development process:
@@ -670,8 +1007,11 @@ The full agent-driven development process:
 3. 🏗️ Architecture (if complex) → Designs technical architecture
 4. 🔌 API Design (if APIs) → Specifies API contracts
 5. ⚡ Implementation → Build with clear specs
-6. ✅ Review → Validate against design
-7. 🚀 Deploy → Ship with confidence
+6. 🧪 Testing → Validate functionality
+7. 📚 Documentation → Generate comprehensive docs
+8. 🔍 Code Review → Automated quality check
+9. ✅ Human Review → Final validation
+10. 🚀 Deploy → Ship with confidence
 ```
 
 **For complete guidance**, see **[WORKFLOW.md](WORKFLOW.md)**.

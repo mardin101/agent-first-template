@@ -1,6 +1,6 @@
 # Agent-First Development Workflow
 
-This document describes the complete agent-driven development workflow from ideation to implementation, including when and how to use each agent.
+This document describes the complete agent-driven development workflow from ideation through implementation, testing, documentation, code review, and deployment. Each phase is handled by specialized agents.
 
 ## Overview
 
@@ -16,8 +16,13 @@ graph LR
     E -->|Yes| G[🔌 API Design]
     E -->|No| F
     G --> F
-    F --> H[✅ Review]
-    H --> I[🚀 Deploy]
+    F --> H[🧪 Testing]
+    H --> I[📚 Documentation]
+    I --> J[🔍 Code Review]
+    J --> K{Issues Found?}
+    K -->|Yes| F
+    K -->|No| L[✅ Human Review]
+    L --> M[🚀 Deploy]
     
     style A fill:#e1f5ff
     style B fill:#e1f5ff
@@ -25,7 +30,10 @@ graph LR
     style G fill:#fff3e1
     style F fill:#e8f5e9
     style H fill:#e8f5e9
-    style I fill:#e8f5e9
+    style I fill:#f3e5f5
+    style J fill:#f3e5f5
+    style L fill:#e8f5e9
+    style M fill:#e8f5e9
 ```
 
 ## Phase 1: Ideation 💡
@@ -316,7 +324,145 @@ After decomposition, you need to decide if technical design is required. Use the
 
 ---
 
-## Phase 5: Review ✅
+## Phase 5: Quality Assurance 🎯
+
+After implementation and testing, the quality assurance phase ensures code is well-documented and meets quality standards before human review.
+
+### 5A: Documentation 📚
+
+#### Agent: Documentation Agent
+
+**When to Use**:
+- ✅ After implementing new features
+- ✅ Creating or updating APIs
+- ✅ Adding new components or libraries
+- ✅ When documentation gaps identified
+
+**When to Skip**:
+- ❌ Trivial changes (typo fixes, minor style changes)
+- ❌ Internal refactoring with no API changes
+- ⚠️ Bug fixes (document if behavior changes)
+
+**Purpose**: Generate and maintain comprehensive technical documentation including API references, code comments, user guides, and changelogs
+
+**Input**:
+- Implementation code from Phase 4
+- PR or code changes to document
+- Architecture document (if created)
+- API specification (if created)
+- Existing documentation to update
+
+**Process**:
+1. Documentation scope assessment
+2. Context gathering (audience, format preferences)
+3. Generate documentation:
+   - API reference with examples
+   - Code documentation (JSDoc/docstrings)
+   - User guides and tutorials
+   - Changelog entries
+   - README updates
+4. Gap identification
+5. Documentation review and integration
+
+**Output**:
+- Complete documentation suite with:
+  - API reference documentation
+  - Inline code documentation
+  - User guides
+  - Changelog entries
+  - README updates
+  - Multiple language examples
+  - Gap analysis report
+
+**Location**: `.github/agents/documentation.md`
+
+**Example**: `.github/agents/documentation-example.md`
+
+**Typical Duration**: 10-15 minutes
+
+---
+
+### 5B: Code Review 🔍
+
+#### Agent: Code Review Agent
+
+**When to Use**:
+- ✅ Before requesting human code review (always)
+- ✅ After implementation and testing
+- ✅ As automated quality gate in CI/CD
+- ✅ Before merging to main branch
+
+**When to Skip**:
+- Never! Even simple changes benefit from automated review
+
+**Purpose**: Automated first-pass code review with comprehensive, actionable feedback across security, quality, performance, testing, and documentation
+
+**Input**:
+- PR URL or code changes to review
+- Acceptance criteria from decomposition
+- Architecture document (if available)
+- API specification (if available)
+- Documentation from Phase 5A
+
+**Process**:
+1. Review scope analysis
+2. Comprehensive review across categories:
+   - Security (SQL injection, XSS, auth issues)
+   - Code quality (duplication, complexity, best practices)
+   - Performance (N+1 queries, algorithms, caching)
+   - Test coverage (>80% threshold, edge cases)
+   - Documentation completeness
+   - Accessibility (WCAG for UI)
+3. Prioritize findings by severity
+4. Generate actionable feedback with code examples
+5. Developer addresses issues
+6. Re-review if significant changes
+
+**Output**:
+- Comprehensive code review with:
+  - Executive summary with key findings
+  - Critical issues (🔴 Must fix)
+  - High priority issues (🟠 Should fix)
+  - Medium priority issues (🟡 Consider fixing)
+  - Low priority suggestions (🟢 Nice to have)
+  - Positive observations
+  - Specific line numbers and fix examples
+  - Severity levels and estimated fix times
+  - Security summary (OWASP coverage)
+  - Performance impact analysis
+  - Test coverage analysis
+  - Acceptance criteria validation
+
+**Location**: `.github/agents/code-review.md`
+
+**Example**: `.github/agents/code-review-example.md`
+
+**Typical Duration**: 5-10 minutes (automated)
+
+---
+
+## Phase 6: Human Review ✅
+
+**When to Use**: After automated code review and addressing critical/high priority issues
+
+**Who Does It**:
+- Senior developers
+- Tech leads
+- Domain experts
+
+**Process**:
+1. Review automated code review findings
+2. Verify critical issues addressed
+3. Focus on architecture and business logic
+4. Check design adherence
+5. Validate acceptance criteria
+6. Approve or request changes
+
+**Typical Duration**: 1-2 hours (30-50% faster with automated review)
+
+---
+
+## Phase 7: Deploy 🚀
 
 **When to Use**: After implementation is complete
 
@@ -382,16 +528,40 @@ After decomposition, you need to decide if technical design is required. Use the
    ↓ Backend team builds WebSocket server
    ↓ Frontend team integrates Socket.io client
    ↓ Following architecture and API specs
+   ↓ Write comprehensive tests
    
-7. Review (3 days)
-   ↓ Code review
-   ↓ Security testing
-   ↓ Load testing (2000+ connections)
+7. Documentation Agent (15 min)
+   ↓ Generates WebSocket API documentation
+   ↓ Creates JSDoc for all message handlers
+   ↓ Writes user guide for real-time features
+   ↓ Updates changelog with new capabilities
    
-8. Deploy (1 week gradual rollout)
-   ↓ 10% → 50% → 100% of users
+8. Code Review Agent (10 min)
+   ↓ Finds 2 critical security issues (auth, rate limiting)
+   ↓ Identifies N+1 query in notification loading
+   ↓ Suggests caching for user preferences
+   ↓ Validates test coverage (85% - good!)
+   ↓ Confirms documentation completeness
    
+9. Developer Fixes Issues (1 day)
+   ↓ Addresses security vulnerabilities
+   ↓ Optimizes database queries
+   ↓ Adds caching layer
+   
+10. Re-Review (5 min)
+    ↓ Code Review Agent verifies fixes
+    ↓ All critical issues resolved ✅
+   
+11. Human Review (2 days)
+    ↓ Tech lead reviews architecture adherence
+    ↓ Domain expert validates business logic
+    ↓ Approves PR
+    
+12. Deploy (1 week gradual rollout)
+    ↓ 10% → 50% → 100% of users
+    
 Total: 4-5 weeks from idea to production
+Quality: High - caught security issues before human review
 ```
 
 ---
@@ -419,12 +589,32 @@ Total: 4-5 weeks from idea to production
 5. Implementation (1 week)
    ↓ Backend implements endpoints per spec
    ↓ Frontend integrates with API
+   ↓ Write unit and integration tests
    
-6. Review (2 days)
+6. Documentation Agent (12 min)
+   ↓ Generates API reference with curl examples
+   ↓ Creates JSDoc for all endpoints
+   ↓ Writes user guide for preferences feature
+   ↓ Updates changelog
    
-7. Deploy (2 days)
+7. Code Review Agent (8 min)
+   ↓ Finds 1 medium issue (missing input validation)
+   ↓ Suggests optimization (caching user preferences)
+   ↓ Notes good test coverage (88%)
+   ↓ Documentation complete ✅
    
+8. Developer Fixes (2 hours)
+   ↓ Adds input validation
+   ↓ Implements caching
+   
+9. Human Review (1 day)
+   ↓ Quick approval - automated review caught issues
+   
+10. Deploy (2 days)
+    ↓ Staging → Production
+    
 Total: 2 weeks from idea to production
+Quality: Good - simple issues caught early
 ```
 
 ---
@@ -448,11 +638,24 @@ Total: 2 weeks from idea to production
    ↓ Wire up event handler
    ↓ Update tests
    
-5. Review (1 hour)
+5. Documentation Agent (5 min) - OPTIONAL
+   ↓ Update component documentation if needed
+   ↓ Or skip for trivial changes
    
-6. Deploy (same day)
+6. Code Review Agent (5 min)
+   ↓ Verifies accessibility (ARIA labels ✅)
+   ↓ Checks event handler (looks good)
+   ↓ Tests updated ✅
+   ↓ All clear!
+   
+7. Human Review (30 min)
+   ↓ Quick visual check
+   ↓ Approves
+   
+8. Deploy (same day)
    
 Total: 1 day from idea to production
+Quality: Fast with automated checks
 ```
 
 ---
@@ -479,32 +682,48 @@ Total: 1 day from idea to production
    ↓ Write migrations
    ↓ Test in staging
    ↓ Update application code
+   ↓ Write tests
    
-5. Review (2 days)
+5. Documentation Agent (10 min)
+   ↓ Documents new schema
+   ↓ Creates migration guide
+   ↓ Updates data dictionary
+   ↓ Changelog entry
+   
+6. Code Review Agent (8 min)
+   ↓ Reviews migration safety
+   ↓ Verifies rollback plan
+   ↓ Checks index performance
+   ↓ All looks good ✅
+   
+7. Human Review (2 days)
    ↓ DBA review
-   ↓ Test rollback
+   ↓ Test rollback in staging
+   ↓ Approves
    
-6. Deploy (1 day)
+8. Deploy (1 day)
+   ↓ Run migration in production
    
 Total: 1-2 weeks
+Quality: High - caught potential migration issues
 ```
 
 ---
 
 ## Decision Matrix: Which Agents When?
 
-| Feature Type | Brainstorm | Decompose | Architecture | API Design | Total Time |
-|--------------|------------|-----------|--------------|------------|------------|
-| **New major feature** | ✅ Yes | ✅ Yes | ✅ Yes | ⚠️ If APIs | 1-2 hours design |
-| **REST API (complex)** | ⚠️ Optional | ⚠️ Optional | ✅ Yes | ✅ Yes | 1-2 hours design |
-| **REST API (simple CRUD)** | ❌ No | ❌ No | ❌ No | ✅ Yes | 30 min design |
-| **WebSocket/Real-time** | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | 2 hours design |
-| **Database schema change** | ⚠️ Optional | ⚠️ Optional | ✅ Yes | ❌ No | 30-60 min design |
-| **UI-only feature** | ⚠️ Optional | ⚠️ Optional | ❌ No | ❌ No | 0-20 min design |
-| **Bug fix** | ❌ No | ❌ No | ❌ No | ❌ No | 0 min design |
-| **Refactoring** | ❌ No | ⚠️ Optional | ⚠️ If complex | ❌ No | 0-30 min design |
-| **Third-party integration** | ⚠️ Optional | ✅ Yes | ✅ Yes | ⚠️ Sometimes | 1-2 hours design |
-| **Background job** | ⚠️ Optional | ⚠️ Optional | ⚠️ If complex | ❌ No | 0-60 min design |
+| Feature Type | Brainstorm | Decompose | Architecture | API Design | Documentation | Code Review | Total Time |
+|--------------|------------|-----------|--------------|------------|---------------|-------------|------------|
+| **New major feature** | ✅ Yes | ✅ Yes | ✅ Yes | ⚠️ If APIs | ✅ Yes | ✅ Yes | 1.5-2.5 hours design + QA |
+| **REST API (complex)** | ⚠️ Optional | ⚠️ Optional | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | 1-2 hours design + QA |
+| **REST API (simple CRUD)** | ❌ No | ❌ No | ❌ No | ✅ Yes | ✅ Yes | ✅ Yes | 30-45 min design + QA |
+| **WebSocket/Real-time** | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | 2-2.5 hours design + QA |
+| **Database schema change** | ⚠️ Optional | ⚠️ Optional | ✅ Yes | ❌ No | ✅ Yes | ✅ Yes | 30-90 min design + QA |
+| **UI-only feature** | ⚠️ Optional | ⚠️ Optional | ❌ No | ❌ No | ⚠️ Optional | ✅ Yes | 0-20 min design + 10 min QA |
+| **Bug fix** | ❌ No | ❌ No | ❌ No | ❌ No | ⚠️ If changes | ✅ Yes | 5-15 min QA only |
+| **Refactoring** | ❌ No | ⚠️ Optional | ⚠️ If complex | ❌ No | ⚠️ If APIs change | ✅ Yes | 0-30 min design + 10 min QA |
+| **Third-party integration** | ⚠️ Optional | ✅ Yes | ✅ Yes | ⚠️ Sometimes | ✅ Yes | ✅ Yes | 1-2 hours design + QA |
+| **Background job** | ⚠️ Optional | ⚠️ Optional | ⚠️ If complex | ❌ No | ✅ Yes | ✅ Yes | 0-60 min design + QA |
 
 **Legend**:
 - ✅ Yes: Strongly recommended
@@ -752,14 +971,29 @@ The agent-first workflow provides a systematic approach to feature development:
 3. **🏗️ Architecture** (conditional) - Design system architecture
 4. **🔌 API Design** (conditional) - Specify API contracts
 5. **⚡ Implementation** - Build with clear specifications
-6. **✅ Review** - Validate against design
-7. **🚀 Deploy** - Ship with confidence
+6. **🧪 Testing** - Validate functionality
+7. **📚 Documentation** - Generate comprehensive docs
+8. **🔍 Code Review** - Automated quality check
+9. **✅ Human Review** - Final validation
+10. **🚀 Deploy** - Ship with confidence
 
-**Key Principle**: Use the right amount of design for the complexity of the feature. Not every feature needs full architecture, but complex features benefit immensely from upfront design.
+**Key Principle**: Use the right amount of design for the complexity of the feature. Not every feature needs full architecture, but complex features benefit immensely from upfront design. QA agents (Documentation + Code Review) should be used on nearly all changes.
 
 **Remember**: 
 - Design time is typically 1-10% of total feature time
+- QA time is typically 15-30 minutes (automated)
 - But prevents 30-50% of implementation rework
+- Catches 80%+ of common issues before human review
 - ROI is highly positive for medium-complex features
 
-**When in doubt**: Err on the side of more design for complex features, less for simple ones. The complexity assessment in the Architecture Agent helps make this decision.
+**Quality Impact**:
+- **30-50% reduction** in code review time
+- **80%+ of issues** caught before human review
+- **Consistent documentation** quality
+- **Complete audit trail** from ideation to deployment
+
+**When in doubt**: 
+- Err on the side of more design for complex features, less for simple ones
+- **Always** use Documentation Agent for user-facing changes
+- **Always** use Code Review Agent before human review
+- The complexity assessment in the Architecture Agent helps make design decisions
