@@ -2,16 +2,18 @@
 
 ## Overview
 
-This template provides six complementary agents for the complete feature development lifecycle:
+This template provides complementary agents for the complete feature development lifecycle
 
 1. **Brainstorming Agent** 💡 - Helps you explore and refine feature ideas
 2. **Decomposition Agent** 🗂️ - Breaks down features into actionable sub-issues
 3. **Architecture Agent** 🏗️ - Designs technical architecture for complex features
 4. **API Design Agent** 🔌 - Creates detailed API specifications
-5. **Documentation Agent** 📚 - Generates and maintains comprehensive documentation
-6. **Code Review Agent** 🔍 - Automated first-pass code review with actionable feedback
+5. **Code Implementation Agent** 🔨 - Creates comprehensive implementation plans with code guidance
+6. **Test Generation Agent** 🧪 - Generates comprehensive test coverage
+7. **Documentation Agent** 📚 - Generates and maintains comprehensive documentation
+8. **Code Review Agent** 🔍 - Automated first-pass code review with actionable feedback
 
-Together, they enable a complete agent-first development workflow: **Brainstorm → Decompose → Architecture (if needed) → API Design (if needed) → Implement → Document → Code Review → Merge**
+Together, they enable a complete agent-first development workflow: **Brainstorm → Decompose → Architecture (if needed) → API Design (if needed) → Implement -> Test → Review/Documentation**
 
 For complete workflow guidance, see **[WORKFLOW.md](WORKFLOW.md)**.
 
@@ -1043,4 +1045,605 @@ The full agent-driven development process:
 - Complete workflow examples
 - Best practices and troubleshooting
 
+Happy decomposing! 🚀
+
+---
+
+# Using the Code Implementation Agent 🔨
+
+## Quick Start
+
+The Code Implementation Agent creates comprehensive implementation plans for well-defined sub-issues, providing step-by-step guidance with code examples.
+
+### Step 1: Prepare Your Sub-Issue
+
+You'll need a well-defined sub-issue with:
+- Clear description and scope
+- Specific acceptance criteria (3-5 criteria)
+- Technical details (files, dependencies)
+- Reference to parent issue
+
+The decomposition agent creates perfectly formatted sub-issues for implementation!
+
+### Step 2: Invoke the Code Implementation Agent
+
+Use the GitHub Copilot interface to invoke the agent:
+
+- Open GitHub Copilot chat
+- Reference the agent file: `.github/agents/code-implementation.md`
+- Provide the sub-issue content or URL
+
+### Step 3: Context Gathering
+
+The agent will:
+1. **Analyze the sub-issue** and acceptance criteria
+2. **Scan the codebase** for existing patterns and conventions
+3. **Check for architecture/API docs** to follow
+4. **Present its understanding** and ask for confirmation
+
+This ensures the agent understands your requirements and environment correctly.
+
+### Step 4: Review the Implementation Plan
+
+The agent will generate:
+
+1. **Context Summary** - Understanding of requirements and available resources
+2. **Acceptance Criteria Mapping** - Each criterion mapped to implementation approach
+3. **Files to Create/Modify** - Complete file paths and purposes
+4. **Implementation Steps** - Step-by-step guidance with actual code examples
+5. **Code Patterns to Follow** - Examples from your existing codebase
+6. **Edge Cases** - Identified edge cases and handling approaches
+7. **Quality Considerations** - Security, performance, accessibility guidance
+8. **Checklists** - Pre/during/post implementation validation
+
+### Step 5: Implement or Iterate
+
+- Review the plan and request adjustments if needed
+- Implement following the step-by-step guidance
+- Use code examples as templates
+- Verify against checklists
+- Invoke Test Generation Agent when complete
+
+## What to Prepare
+
+Before starting an implementation session, have:
+
+- **A well-defined sub-issue** with clear acceptance criteria
+- **Understanding of your codebase** (or let the agent scan it)
+- **Architecture/API docs** if available (agent will check)
+- **Development environment** set up and ready
+
+## Tips for Effective Implementation Planning
+
+1. **Provide context**: Share any additional context the agent might not find
+2. **Review patterns carefully**: Ensure suggested patterns fit your use case
+3. **Validate file paths**: Confirm file organization matches your project structure
+4. **Consider security first**: Pay attention to security guidance
+5. **Plan for testing**: Implementation should be testable
+6. **Iterate if needed**: Ask for adjustments to scope or approach
+
+## What You'll Get
+
+A production-ready implementation plan with:
+
+- ✅ **Context-aware guidance** - Uses your project's patterns and conventions
+- ✅ **Step-by-step instructions** - Clear, sequential implementation steps
+- ✅ **Actual code examples** - Real code, not pseudocode
+- ✅ **Pattern references** - Points to existing code to follow
+- ✅ **Quality considerations** - Security, performance, accessibility
+- ✅ **Edge case handling** - Identified and addressed
+- ✅ **Testing guidance** - Ready for Test Generation Agent
+- ✅ **Validation checklists** - Ensure nothing is missed
+
+## Implementation Modes
+
+The agent supports multiple modes:
+
+### Guided Mode (Default)
+- Detailed plan for human developers
+- Explanations of why, not just what
+- Learning opportunity in guidance
+- Step-by-step walkthrough
+
+### Autonomous Mode
+- Works with GitHub Copilot Workspace
+- More prescriptive instructions
+- Complete code examples
+- Can be used by AI to implement directly
+
+### Review Mode
+- Reviews existing implementation
+- Compares against original plan
+- Identifies gaps or deviations
+- Suggests improvements
+
+## Integration with Other Agents
+
+**From Decomposition Agent**:
+- Receives sub-issues with acceptance criteria
+- Builds on parent issue context
+- Follows implementation order
+
+**To Test Generation Agent**:
+- Implementation plan feeds into test planning
+- Acceptance criteria map to test cases
+- Code patterns inform test structure
+
+**From Architecture Agent** (if available):
+- Follows architectural decisions
+- Respects design constraints
+- Implements according to patterns
+
+## Example Commands
+
+Depending on your GitHub Copilot setup, you might invoke the agent like:
+
+```
+@workspace Create an implementation plan for this sub-issue
+```
+
+or
+
+```
+Use .github/agents/code-implementation.md to plan implementation for: [paste sub-issue]
+```
+
+or simply:
+
+```
+I need to implement sub-issue #105, help me create an implementation plan
+```
+
+The agent will recognize your intent and start the planning process.
+
+## Best Practices
+
+### For Backend Features
+- Emphasize database schema and migrations
+- Focus on API design and error handling
+- Consider performance and scalability
+- Include authentication/authorization
+
+### For Frontend Features
+- Focus on component structure and reusability
+- Emphasize accessibility (WCAG compliance)
+- Consider responsive design
+- Include state management patterns
+
+### For Full-Stack Features
+- Plan backend first, then frontend
+- Define API contracts clearly
+- Consider data flow and state management
+- Plan integration points carefully
+
+### For Refactoring Tasks
+- Identify current patterns to improve
+- Plan incremental changes
+- Ensure backward compatibility
+- Include migration strategy
+
+## Reviewing Generated Implementation Plans
+
+When reviewing the plan, check:
+
+- [ ] **Completeness**: Does it cover all acceptance criteria?
+- [ ] **Accuracy**: Do file paths and patterns match your project?
+- [ ] **Clarity**: Are steps clear and actionable?
+- [ ] **Quality**: Are security/performance/accessibility addressed?
+- [ ] **Testability**: Can implementation be tested?
+- [ ] **Dependencies**: Are new dependencies justified?
+- [ ] **Edge cases**: Are edge cases identified and handled?
+
+## Common Adjustments
+
+Frequently requested adjustments:
+
+**"Add more code examples"** - For complex implementation steps
+
+**"Simplify the approach"** - When suggested solution is over-engineered
+
+**"Add database indexing strategy"** - For performance-critical queries
+
+**"Include more security validation"** - For user-facing features
+
+**"Adjust file organization"** - To match project structure better
+
+**"Add migration rollback plan"** - For database changes
+
+## Need Help?
+
+- See `.github/agents/code-implementation-example.md` for a complete example session
+- Read the agent configuration in `.github/agents/code-implementation.md` to understand its behavior
+- Check the README.md for the complete agent-first workflow
+- Use the decomposition agent first to create well-defined sub-issues
+
+---
+
+# Using the Test Generation Agent 🧪
+
+## Quick Start
+
+The Test Generation Agent creates comprehensive test coverage for implemented features, mapping acceptance criteria to test cases.
+
+### Step 1: Complete Implementation
+
+You'll need:
+- Implemented code (following Code Implementation Agent's plan or manual implementation)
+- Sub-issue with acceptance criteria
+- Working code that compiles/runs
+
+Implementation should be complete before generating tests!
+
+### Step 2: Invoke the Test Generation Agent
+
+Use the GitHub Copilot interface to invoke the agent:
+
+- Open GitHub Copilot chat
+- Reference the agent file: `.github/agents/test-generation.md`
+- Provide implementation reference (file paths, PR, sub-issue)
+
+### Step 3: Analysis
+
+The agent will:
+1. **Analyze the implementation** code
+2. **Detect the test framework** (Jest, Vitest, Pytest, RSpec, etc.)
+3. **Identify test patterns** in your project
+4. **Plan test coverage** - types and count of tests needed
+5. **Present the test plan** and ask for confirmation
+
+This ensures comprehensive coverage is planned before generating tests.
+
+### Step 4: Review the Test Suite
+
+The agent will generate:
+
+1. **Test Coverage Analysis** - Mapping of acceptance criteria to tests
+2. **Unit Tests** - Testing individual functions/methods
+3. **Integration Tests** - Testing component interactions (API, database)
+4. **E2E Tests** - Testing complete user workflows (when applicable)
+5. **Test Fixtures** - Reusable test data and helpers
+6. **Coverage Report** - Expected coverage percentages
+7. **Running Instructions** - Commands to run and validate tests
+
+### Step 5: Run and Validate
+
+- Copy tests into your project
+- Run tests to verify they pass
+- Check coverage meets threshold (>80%)
+- Fix any failing tests or implementation issues
+- Commit tests with implementation
+
+## What to Prepare
+
+Before starting a test generation session, have:
+
+- **Completed implementation** - Code that works
+- **Acceptance criteria** - To map to test cases
+- **Test framework** - Installed and configured (agent will detect)
+- **Understanding of edge cases** - To ensure comprehensive coverage
+
+## Tips for Effective Test Generation
+
+1. **Complete implementation first**: Don't generate tests for partial code
+2. **Provide acceptance criteria**: Tests should validate requirements
+3. **Run tests immediately**: Verify generated tests work
+4. **Check coverage**: Ensure >80% coverage achieved
+5. **Fix flaky tests**: Ensure tests are deterministic
+6. **Add missing tests**: Supplement with additional edge cases if needed
+
+## What You'll Get
+
+A comprehensive test suite with:
+
+- ✅ **Acceptance criteria coverage** - Every criterion validated
+- ✅ **Multiple test types** - Unit, integration, E2E as appropriate
+- ✅ **Edge case tests** - Identified and tested
+- ✅ **Error scenario tests** - Validation errors, failures
+- ✅ **Security tests** - Authentication, authorization, input validation
+- ✅ **Framework-aware** - Uses your project's test framework and conventions
+- ✅ **High coverage** - Typically >80%, often >90%
+- ✅ **Clear structure** - Organized, well-named tests
+- ✅ **Running instructions** - How to run and validate
+
+## Test Types Generated
+
+### Unit Tests
+- Test individual functions/methods in isolation
+- Mock external dependencies (database, APIs)
+- Test all branches and conditions
+- Validate return values and side effects
+- Test error handling
+
+### Integration Tests
+- Test component interactions
+- API endpoints end-to-end
+- Database operations
+- Authentication/authorization
+- Real dependencies (not mocked)
+
+### E2E Tests
+- Complete user workflows
+- UI interactions (if applicable)
+- Cross-system integration
+- Critical user paths
+
+## Coverage Focus
+
+The agent ensures:
+
+- **Happy path**: Normal, expected operation
+- **Error paths**: Invalid inputs, failures
+- **Edge cases**: Boundary conditions, unusual inputs
+- **Security**: Auth, validation, injection prevention
+- **Performance**: Pagination, caching (tested indirectly)
+
+## Test Quality Standards
+
+Generated tests follow best practices:
+
+- **Independent**: No shared state between tests
+- **Repeatable**: Same result every time
+- **Clear descriptions**: Given-When-Then format
+- **Proper mocking**: External dependencies isolated
+- **Fast execution**: No unnecessary delays
+- **Comprehensive assertions**: Validate all important behavior
+
+## Integration with Other Agents
+
+**From Code Implementation Agent**:
+- Uses acceptance criteria mapping
+- Follows identified code patterns
+- Tests implementation approach
+
+**To Code Review**:
+- Tests validate acceptance criteria
+- Coverage demonstrates completeness
+- Tests serve as documentation
+
+## Example Commands
+
+Depending on your GitHub Copilot setup, you might invoke the agent like:
+
+```
+@workspace Generate tests for the notification service implementation
+```
+
+or
+
+```
+Use .github/agents/test-generation.md to create tests for: [implementation reference]
+```
+
+or simply:
+
+```
+I've implemented sub-issue #105, generate comprehensive tests
+```
+
+The agent will recognize your intent and start test generation.
+
+## Best Practices
+
+### For Backend Services
+- Focus on unit tests for business logic
+- Integration tests for API endpoints
+- Mock database in unit tests, use test DB in integration tests
+- Test authentication and authorization thoroughly
+
+### For Frontend Components
+- Unit tests for component logic
+- Integration tests for user interactions
+- E2E tests for critical user flows
+- Test accessibility features
+
+### For Database Operations
+- Test CRUD operations
+- Test queries and filters
+- Test transactions and rollbacks
+- Test constraint violations
+
+### For API Endpoints
+- Test all HTTP methods
+- Test authentication/authorization
+- Test input validation
+- Test error responses
+
+## Reviewing Generated Tests
+
+When reviewing the test suite, check:
+
+- [ ] **Completeness**: All acceptance criteria tested?
+- [ ] **Independence**: Tests don't depend on each other?
+- [ ] **Clarity**: Test names are descriptive?
+- [ ] **Coverage**: Meets >80% threshold?
+- [ ] **Mocking**: External dependencies properly mocked?
+- [ ] **Assertions**: Comprehensive validation?
+- [ ] **Edge cases**: Boundary conditions tested?
+- [ ] **Errors**: Failure scenarios tested?
+
+## Running and Validating Tests
+
+After generating tests:
+
+```bash
+# Run all tests
+npm test
+# or: pytest, bundle exec rspec, etc.
+
+# Run with coverage
+npm run test:coverage
+
+# Run specific test file
+npm test -- path/to/test.test.ts
+
+# Run multiple times to check for flaky tests
+for i in {1..5}; do npm test; done
+```
+
+**Verify**:
+- ✅ All tests pass
+- ✅ Coverage meets threshold
+- ✅ No flaky tests
+- ✅ Tests run in reasonable time
+- ✅ CI/CD integration works
+
+## Troubleshooting
+
+### Tests Fail After Generation
+
+**Check mocks**:
+- Verify mock paths are correct
+- Ensure mocks are configured before imports
+- Clear mocks between tests
+
+**Check test data**:
+- Verify test fixtures are valid
+- Check database setup/teardown
+- Ensure test data doesn't conflict
+
+**Check assertions**:
+- Verify expected values are correct
+- Check for timing issues (async)
+- Ensure proper error matching
+
+### Coverage Is Too Low
+
+**Add tests for**:
+- Untested branches (if/else)
+- Error handling paths
+- Edge cases
+- Helper functions
+
+**Consider**:
+- Are some paths unreachable?
+- Is there dead code to remove?
+- Are tests actually running?
+
+### Tests Are Flaky
+
+**Common causes**:
+- Timing issues (async)
+- Random test data
+- Shared state
+- External dependencies
+
+**Solutions**:
+- Use proper async/await
+- Use deterministic test data
+- Ensure test independence
+- Mock external services
+
+## Need Help?
+
+- See `.github/agents/test-generation-example.md` for a complete example session
+- Read the agent configuration in `.github/agents/test-generation.md` to understand its behavior
+- Check the README.md for the complete agent-first workflow
+- Use the code implementation agent first to create a solid implementation
+
+Happy testing! 🧪
+
+---
+
+## Complete Workflow Example
+
+Here's how all four agents work together:
+
+### Phase 1: Ideation (Brainstorming)
+```
+You: "I want to add a notification system"
+↓
+Brainstorm Agent: [Asks 10-15 questions]
+↓
+Output: Comprehensive GitHub Issue #42 - "Real-time Notifications System"
+```
+
+### Phase 2: Planning (Decomposition)
+```
+You: [Provide Issue #42]
+↓
+Decompose Agent: [Analyzes and breaks down]
+↓
+Output: 9 sub-issues organized into 5 phases
+- Sub-issue #105: Implement Notification Backend Service
+- Sub-issue #106: Create Notification API Endpoints
+- [7 more sub-issues...]
+```
+
+### Phase 3: Implementation (Code Implementation)
+```
+You: [Provide Sub-issue #105]
+↓
+Code Implementation Agent: [Analyzes codebase, creates plan]
+↓
+Output: Detailed implementation plan with:
+- Database schema changes
+- Service class with code examples
+- Error handling patterns
+- Security considerations
+↓
+You/Coding Agent: [Implements following the plan]
+```
+
+### Phase 4: Testing (Test Generation)
+```
+You: [Provide completed implementation]
+↓
+Test Generation Agent: [Analyzes code, generates tests]
+↓
+Output: Comprehensive test suite with:
+- 18 unit tests
+- Integration tests (when applicable)
+- 92% coverage
+- All acceptance criteria validated
+↓
+You: [Runs tests, verifies coverage]
+```
+
+### Phase 5: Review & Merge
+```
+You: [Creates PR with implementation + tests]
+↓
+Team: [Reviews code and tests]
+↓
+Merge: [Feature complete and tested]
+```
+
+This complete workflow ensures:
+- ✅ Features are well thought out (brainstorm)
+- ✅ Work is properly scoped (decompose)
+- ✅ Implementation follows best practices (code implementation)
+- ✅ Code is thoroughly tested (test generation)
+- ✅ Quality is maintained throughout
+
+---
+
+## Tips for Success
+
+### Getting Started
+1. Start with brainstorming for new features
+2. Use decomposition for any complex work
+3. Use code implementation for each sub-issue
+4. Use test generation after implementing
+5. Iterate and refine at each step
+
+### Best Practices
+- **Provide context**: The more context you give agents, the better their output
+- **Review carefully**: Agents are helpful but not perfect - review their suggestions
+- **Iterate**: Don't hesitate to ask agents to adjust their output
+- **Combine agents**: Use agents together for best results
+- **Customize**: Adapt agent suggestions to your specific needs
+
+### Common Patterns
+- **Small features**: Brainstorm → Decompose (maybe) → Implement → Test
+- **Medium features**: Brainstorm → Decompose → Implement each → Test each
+- **Large features**: Brainstorm → Decompose → Multiple implementation rounds → Comprehensive testing
+
+---
+
+## Need More Help?
+
+- Check individual agent example files for detailed sessions
+- Review agent configuration files to understand capabilities
+- See README.md for overview and quick reference
+- Experiment with agents on sample issues to learn their behavior
 Happy building! 🚀
